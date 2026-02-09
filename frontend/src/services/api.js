@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL || 'https://auth-app-backend-wfnz.onrender.com/api/auth';
 //Create axios instance
 const api = axios.create({
-    baseURL: API_URL,
+    baseURL: "https://auth-app-backend-wfnz.onrender.com/api/auth",
     headers: {
         'Content-Type' : 'application/json'
     }
