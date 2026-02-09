@@ -3,20 +3,17 @@
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('../config/db');
-const cors = require('cors');
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://yourapp.vercel.app' : 'http://localhost:3000',
-  credentials: true
-}));
-
+const cors = require("cors");
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 // ============================================
 // CONNECT DATABASE
 // ============================================
 
 connectDB();
-app.use(cors());
+
 // ============================================
 // MIDDLEWARE
 // ============================================

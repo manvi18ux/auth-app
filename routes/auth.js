@@ -44,7 +44,8 @@ router.post('/register', async function(req, res) {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
     
@@ -92,7 +93,9 @@ router.post('/login', async function(req, res) {
     
     // Create JWT token
     const token = jwt.sign(
-      { id: user._id },
+      { id: user._id,
+        role: user.role
+       },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRE }
     );
@@ -105,7 +108,8 @@ router.post('/login', async function(req, res) {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     });
     
@@ -117,8 +121,6 @@ router.post('/login', async function(req, res) {
     });
   }
 });
-
-module.exports = router;
 
 // ============================================
 // ROUTE 3: GET CURRENT USER (Protected)

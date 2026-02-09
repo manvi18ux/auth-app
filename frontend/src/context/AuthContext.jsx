@@ -21,27 +21,15 @@ export const AuthProvider = ({ children }) => {
 
   // Load user from localStorage on mount
   useEffect(() => {
-    const loadUser = async () => {
-      const token = localStorage.getItem('token');
-      const savedUser = localStorage.getItem('user');
-      
-      if (token && savedUser) {
-        try {
-          // Verify token is still valid
-          const response = await getCurrentUser();
-          setUser(response.user);
-        } catch (err) {
-          console.error('Token invalid:', err);
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setUser(null);
-        }
-      }
-      setLoading(false);
-    };
+  const token = localStorage.getItem('token');
+  const savedUser = localStorage.getItem('user');
 
-    loadUser();
-  }, []);
+  if (token && savedUser) {
+    setUser(JSON.parse(savedUser));
+  }
+
+  setLoading(false);
+}, []);
 
   // Register function
   const register = async (userData) => {
@@ -49,6 +37,8 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       setLoading(true);
       const response = await registerApi(userData);
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
       setUser(response.user);
       setLoading(false);
       return { success: true };
@@ -66,6 +56,8 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       setLoading(true);
       const response = await loginApi(credentials);
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
       setUser(response.user);
       setLoading(false);
       return { success: true };
@@ -78,17 +70,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Logout function
-  const logout = async () => {
-    try {
-      await logoutApi();
-    } catch (err) {
-      console.error('Logout error:', err);
-    } finally {
-      setUser(null);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-    }
-  };
+ const logout = () => {
+
+  setUser(null);
+
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+
+  window.location.href = "/login";
+};
 
   // Update user in state
   const updateUser = (updatedUser) => {
