@@ -1,12 +1,10 @@
-
-
 require('dotenv').config();
+
 const express = require('express');
 const connectDB = require('../config/db');
 const cors = require("cors");
+
 const app = express();
-app.use(cors());
-app.use(express.json());
 
 // ============================================
 // CONNECT DATABASE
@@ -15,20 +13,28 @@ app.use(express.json());
 connectDB();
 
 // ============================================
+// CORS CONFIGURATION
+// ============================================
+
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production'
+    ? 'https://auth-app-lyart.vercel.app'
+    : 'http://localhost:3000',
+  credentials: true
+}));
+
+// ============================================
 // MIDDLEWARE
 // ============================================
 
-// Parse JSON request bodies
 app.use(express.json());
 
 // ============================================
 // ROUTES
 // ============================================
 
-// Auth routes
 const authRoutes = require('../routes/auth');
 
-// Use auth routes
 app.use('/api/auth', authRoutes);
 
 // Home route
