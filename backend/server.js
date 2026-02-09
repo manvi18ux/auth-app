@@ -17,9 +17,10 @@ connectDB();
 // ============================================
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? 'https://auth-app-lyart.vercel.app'
-    : 'http://localhost:3000',
+  origin: [
+    "http://localhost:3000",
+    "https://auth-app-lyart.vercel.app"
+  ],
   credentials: true
 }));
 
