@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const connectDB = require('../config/db');
-const cors = require("cors");
+const cors = require('cors');
 
 const app = express();
 
@@ -17,11 +17,10 @@ connectDB();
 // ============================================
 
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://auth-app-aszu.vercel.app"
-  ],
-  credentials: true
+  origin: "https://auth-app-lyart.vercel.app",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // ============================================
